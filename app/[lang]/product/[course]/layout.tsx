@@ -1,6 +1,6 @@
-import type { Product, Response, SEO } from "@/lib/interfaces";
 import { Metadata } from "next";
 import type { ReactNode } from "react";
+import type { Product, Response, SEO } from "../../../../lib/interfaces";
 type Params = Promise<{
 	lang: string;
 	course: string;

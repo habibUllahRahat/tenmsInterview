@@ -1,5 +1,5 @@
-import { Media } from "@/lib/interfaces";
 import Image from "next/image";
+import { Media } from "../lib/interfaces";
 interface Props {
 	media: Media;
 }

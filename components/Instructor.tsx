@@ -1,5 +1,5 @@
-import { thisSection } from "@/lib/interfaces";
 import Image from "next/image";
+import { thisSection } from "../lib/interfaces";
 export interface Instructor {
 	description: string;
 	has_instructor_page: boolean;

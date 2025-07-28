@@ -1,12 +1,12 @@
-import CheckList from "@/components/CheckList";
-import type { Instructor } from "@/components/Instructor";
-import Instructors from "@/components/Instructor";
-import Trailer from "@/components/Trailer";
-import type { Data, Media, Product, Response, thisSection } from "@/lib/interfaces";
+import CheckList from "../../../../components/CheckList";
 import CourseDetailsCom, { CourseDetails } from "../../../../components/CourseDetails";
 import CourseExclu, { CourseEx } from "../../../../components/CourseExclu";
 import HowCourseLaidOut, { Htclo } from "../../../../components/HowCourseLaidOut";
+import type { Instructor } from "../../../../components/Instructor";
+import Instructors from "../../../../components/Instructor";
+import Trailer from "../../../../components/Trailer";
 import WywlComponent, { Wywl } from "../../../../components/Wywl";
+import type { Data, Media, Product, Response, thisSection } from "../../../../lib/interfaces";
 interface Props {
 	params: Promise<{
 		lang: string;

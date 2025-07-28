@@ -1,8 +1,8 @@
 "use client";
 
-import type { Media } from "@/lib/interfaces";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import type { Media } from "../lib/interfaces";
 import { PlayButton } from "./svgs/SVGs";
 
 interface Props {

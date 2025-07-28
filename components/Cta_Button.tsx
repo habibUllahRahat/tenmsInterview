@@ -1,4 +1,4 @@
-import { CtaText as Props } from "@/lib/interfaces";
+import { CtaText as Props } from "../lib/interfaces";
 
 export default function Cta_Button(props: Props) {
 	return (

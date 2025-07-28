@@ -1,4 +1,4 @@
-import type { Checklist, CtaText, Media } from "@/lib/interfaces";
+import type { Checklist, CtaText, Media } from "../lib/interfaces";
 import CheckList from "./CheckList";
 import Slider from "./Slider";
 interface Props {
