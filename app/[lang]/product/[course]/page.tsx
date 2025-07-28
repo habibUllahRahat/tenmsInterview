@@ -6,7 +6,7 @@ import type { Instructor } from "../../../../components/Instructor";
 import Instructors from "../../../../components/Instructor";
 import Trailer from "../../../../components/Trailer";
 import WywlComponent, { Wywl } from "../../../../components/Wywl";
-import type { Data, Media, Product, Response, thisSection } from "../../../../lib/interfaces";
+import type { Data, Media, Response, thisSection } from "../../../../lib/interfaces";
 interface Props {
 	params: Promise<{
 		lang: string;
@@ -32,25 +32,10 @@ async function getData(lang: string, course: string): Promise<Data> {
 	return res.data as Data;
 }
 export async function generateStaticParams() {
-	const res = await fetch(
-		"https://api.10minuteschool.com/discovery-service/api/v1/products?limit=3",
-		{
-			headers: {
-				Accept: "application/json",
-				"X-TENMS-SOURCE-PLATFORM": "web",
-			},
-		}
-	);
-	const data = await res.json();
-	const products: Product[] = data.data.products;
-	const params: { lang: string; course: string }[] = [];
-	products.forEach((product) => {
-		if (product && product.slug) {
-			params.push({ lang: "en", course: product.slug });
-			params.push({ lang: "bn", course: product.slug });
-		}
-	});
-	return params;
+	return [
+		{ lang: "en", course: "ielts-course" },
+		{ lang: "bn", course: "ielts-course" },
+	];
 }
 
 export default async function Page({ params }: Props) {
@@ -105,11 +90,13 @@ export default async function Page({ params }: Props) {
 			</section>
 			<main className='container flex flex-col md:grid md:grid-cols-12 gap-4 mid:gap-6 '>
 				<div className='mid:col-span-6 lg:col-span-7 md:col-start-1 '>
-					<Instructors instructorsSection={instructors} />
-					<HowCourseLaidOut howCourseLaidOutSection={howCourseLaidOutSection} />
-					<WywlComponent wywl={wywl} />
-					<CourseExclu coursex={CourseExclusive} />
-					<CourseDetailsCom course={courseDetails} />
+					{instructors && <Instructors instructorsSection={instructors} />}
+					{howCourseLaidOutSection && (
+						<HowCourseLaidOut howCourseLaidOutSection={howCourseLaidOutSection} />
+					)}
+					{wywl && <WywlComponent wywl={wywl} />}
+					{CourseExclusive && <CourseExclu coursex={CourseExclusive} />}
+					{courseDetails && <CourseDetailsCom course={courseDetails} />}
 				</div>
 			</main>
 		</>

@@ -1,6 +1,7 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import type { Product, Response, SEO } from "../../../../lib/interfaces";
+import type { Response, SEO } from "../../../../lib/interfaces";
+
 type Params = Promise<{
 	lang: string;
 	course: string;
@@ -10,102 +11,58 @@ const headersList = {
 	Accept: "application/json",
 	"X-TENMS-SOURCE-PLATFORM": "web",
 };
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { lang, course } = await params;
+
 	const response = await fetch(
 		`https://api.10minuteschool.com/discovery-service/api/v1/products/${course}?lang=${lang}`,
-		{
-			method: "GET",
-			headers: headersList,
-		}
+		{ headers: headersList }
 	);
+
 	const res: Response = await response.json();
-	const seo: SEO = res?.data?.seo;
-	const metadata: Metadata = {
+	const seo: SEO | undefined = res?.data?.seo;
+
+	const getMetaContent = (name: string): string =>
+		seo?.defaultMeta?.find((meta) => meta.value === name)?.content ?? "";
+
+	return {
 		title: seo?.title ?? "",
 		description: seo?.description ?? "",
 		keywords: seo?.keywords ?? [],
 		openGraph: {
-			title:
-				seo?.defaultMeta[seo?.defaultMeta.findIndex((meta) => meta.value === "og:title")]
-					.content ?? "",
-			description:
-				seo?.defaultMeta[
-					seo?.defaultMeta.findIndex((meta) => meta.value === "og:description")
-				].content ?? "",
+			title: getMetaContent("og:title"),
+			description: getMetaContent("og:description"),
 			images: [
 				{
-					url:
-						seo?.defaultMeta[
-							seo?.defaultMeta.findIndex((meta) => meta.value === "og:image")
-						].content ?? "",
-					type:
-						seo?.defaultMeta[
-							seo?.defaultMeta.findIndex((meta) => meta.value === "og:image:type")
-						].content ?? "",
-					alt:
-						seo?.defaultMeta[
-							seo?.defaultMeta.findIndex((meta) => meta.value === "og:image:alt")
-						].content ?? "",
+					url: getMetaContent("og:image"),
+					type: getMetaContent("og:image:type"),
+					alt: getMetaContent("og:image:alt"),
 				},
 				{
-					url:
-						seo?.defaultMeta[
-							seo?.defaultMeta.findIndex(
-								(meta) => meta.value === "og:image:secure_url"
-							)
-						].content ?? "",
+					url: getMetaContent("og:image:secure_url"),
 					width: 800,
 					height: 600,
-					type:
-						seo?.defaultMeta[
-							seo?.defaultMeta.findIndex((meta) => meta.value === "og:image:type")
-						].content ?? "",
-					alt:
-						seo?.defaultMeta[
-							seo?.defaultMeta.findIndex((meta) => meta.value === "og:image:alt")
-						].content ?? "",
+					type: getMetaContent("og:image:type"),
+					alt: getMetaContent("og:image:alt"),
 				},
 			],
-			url:
-				seo?.defaultMeta[seo?.defaultMeta.findIndex((meta) => meta.value === "og:url")]
-					.content ?? "",
-			locale:
-				seo?.defaultMeta[seo?.defaultMeta.findIndex((meta) => meta.value === "og:locale")]
-					.content ?? "",
+			url: getMetaContent("og:url"),
+			locale: getMetaContent("og:locale"),
 		},
 		other: {
-			"ld-json": seo?.schema
-				?.filter((schema) => schema.meta_value)
-				?.map((schema) => schema.meta_value),
+			"ld-json": seo?.schema?.map((s) => s.meta_value).filter(Boolean),
 		},
 	};
-
-	return metadata;
 }
+
 export async function generateStaticParams() {
-	const res = await fetch(
-		"https://api.10minuteschool.com/discovery-service/api/v1/products?limit=3",
-		{
-			headers: {
-				Accept: "application/json",
-				"X-TENMS-SOURCE-PLATFORM": "web",
-			},
-		}
-	);
-	const data = await res.json();
-	const products: Product[] = data.data.products;
-	const params: { lang: string; course: string }[] = [];
-	products.forEach((product) => {
-		if (product && product.slug) {
-			params.push({ lang: "en", course: product.slug });
-			params.push({ lang: "bn", course: product.slug });
-		}
-	});
-	return params;
+	return [
+		{ lang: "en", course: "ielts-course" },
+		{ lang: "bn", course: "ielts-course" },
+	];
 }
-
-export default async function ProductLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function ProductLayout({ children }: { children: ReactNode }) {
 	return (
 		<>
 			<h1>Product Layout</h1>
