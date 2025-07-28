@@ -147,9 +147,9 @@ export interface Schema {
 export interface MainProductsResponse {
 	code: number;
 	data: Data;
-	error: any[];
+	error: unknown[];
 	message: string;
-	payload: any[];
+	payload: unknown[];
 	status_code: number;
 }
 
@@ -177,7 +177,7 @@ export interface Product {
 	is_enrolled: boolean;
 	price_details: PriceDetails;
 	instructor_text: string;
-	checklist: any[];
+	checklist: unknown[];
 }
 
 export interface Media {
