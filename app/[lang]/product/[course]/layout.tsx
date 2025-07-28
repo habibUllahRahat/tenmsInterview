@@ -15,10 +15,9 @@ const headersList = {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
 	const { lang, course } = await params;
 
-	const response = await fetch(
-		`https://api.10minuteschool.com/discovery-service/api/v1/products/${course}?lang=${lang}`,
-		{ headers: headersList }
-	);
+	const response = await fetch(`${process.env.API_KEY}/${course}?lang=${lang}`, {
+		headers: headersList,
+	});
 
 	const res: Response = await response.json();
 	const seo: SEO | undefined = res?.data?.seo;
@@ -63,10 +62,5 @@ export async function generateStaticParams() {
 	];
 }
 export default function ProductLayout({ children }: { children: ReactNode }) {
-	return (
-		<>
-			<h1>Product Layout</h1>
-			{children}
-		</>
-	);
+	return <>{children}</>;
 }

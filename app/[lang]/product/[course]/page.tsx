@@ -19,14 +19,11 @@ const headersList = {
 };
 
 async function getData(lang: string, course: string): Promise<Data> {
-	const response = await fetch(
-		`https://api.10minuteschool.com/discovery-service/api/v1/products/${course}?lang=${lang}`,
-		{
-			method: "GET",
-			headers: headersList,
-			next: { revalidate: 60 },
-		}
-	);
+	const response = await fetch(`${process.env.API_KEY}/${course}?lang=${lang}`, {
+		method: "GET",
+		headers: headersList,
+		next: { revalidate: 60 },
+	});
 
 	const res: Response = await response.json();
 	return res.data as Data;
