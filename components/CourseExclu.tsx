@@ -26,7 +26,7 @@ export default function CourseExclu({ coursex }: { coursex: thisSection<CourseEx
 						className='flex flex-col w-full justify-between gap-3 py-5 md:flex-row'
 					>
 						<div className='flex flex-col gap-2'>
-							<h2 className='text-xl text-red-500'>{item.title}</h2>
+							<h2 className='text-xl '>{item.title}</h2>
 							{item.checklist.map((check, index) => (
 								<div
 									key={index}
