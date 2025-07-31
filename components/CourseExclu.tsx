@@ -23,12 +23,15 @@ export default function CourseExclu({ coursex }: { coursex: thisSection<CourseEx
 				{coursex.values.map((item) => (
 					<div
 						key={item.id}
-						className='flex flex-col items-start justify-between gap-3 py-5 md:flex-row'
+						className='flex flex-col w-full justify-between gap-3 py-5 md:flex-row'
 					>
 						<div className='flex flex-col gap-2'>
-							<h2 className='text-xl'>{item.title}</h2>
+							<h2 className='text-xl text-red-500'>{item.title}</h2>
 							{item.checklist.map((check, index) => (
-								<div key={index} className='flex flex-row items-center gap-5'>
+								<div
+									key={index}
+									className='flex flex-row  justify-between items-center gap-5'
+								>
 									<CorrectMark />
 									<p className='text-[14px] font-[400px] leading-[24px] text-[#4B5563] md:text-[16px]'>
 										{check}
@@ -37,7 +40,7 @@ export default function CourseExclu({ coursex }: { coursex: thisSection<CourseEx
 							))}
 						</div>
 						{item?.file_url && (
-							<div className='mb-4 mx-auto w-full transition-opacity duration-300 ease-in-out'>
+							<div className='flex justify-center items-center w-full transition-opacity duration-300 ease-in-out'>
 								<Image
 									alt={item.file_type}
 									src={item.file_url}
